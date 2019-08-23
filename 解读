@@ -1,0 +1,35 @@
+函数：y = w*x + b
+数据准备：
+        x_train = np.array([[3.3], [4.4], [5.5], [6.71]], dtype=np.float32)
+        y_train = np.array([[1.7], [2.76], [2.09], [3.19]], dtype=np.float32)
+        x_train = torch.from_numpy(x_train)
+        y_train = torch.from_numpy(y_train)
+        即（x,y）,只用四个值方便计算，w=-1~1,b=0
+        
+        w = torch.randn(1, requires_grad=True)  ##参与反向传导，也就是要参与训练
+        b = torch.zeros(1, requires_grad=True
+调用模型预测
+        ## pred=[]=torch.mul(x, w) + b
+        pred = linear_model(x_train)
+        
+        ## loss = float = mean((pred - y) ** 2) ## 差的平方求平均
+        loss = get_loss(pred, y_train) 
+        
+        #反向传播来了
+        loss.backward()
+        
+w的变化：
+1、初始化
+tensor([-0.1187], requires_grad=True)
+2、计算pred后，pred值
+## 重点是后面的grad_fn,记录了由w到pred，使用了什么计算
+tensor([[？],[？],[?],[?]], grad_fn=<AddBackward0>)
+3、loss值
+## 重点也在后面的grad_fn,记录了是mean以后的值，用于反向
+tensor(9.6421, grad_fn=<MeanBackward1>)
+4、backward前
+w.grad = 0(或者上一次的梯度)
+5、backward以后
+w.grad = -31.5918 ##
+6、学习
+w.data = w.data - lr * w.grad.data
