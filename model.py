@@ -1,3 +1,5 @@
+# inspire by https://blog.csdn.net/qq_35447659/article/details/83989668
+
 class Cmytorch(object):
     def __init__(self):
         super(Cmytorch, self).__init__()
